@@ -1,37 +1,47 @@
 - git:
     local-name: metacontrol_sim
-    uri: https://github.com/rosin-project/metacontrol_sim
-- git:
-    local-name: yumi
-    uri: https://github.com/marioney/yumi
+    uri: https://github.com/JWijkhuizen/metacontrol_sim.git
+    version: nav_quality
 - git:
     local-name: metacontrol_nav
     uri: https://github.com/rosin-project/metacontrol_nav
 - git:
-    local-name: brass_gazebo_battery
-    uri: https://github.com/rosin-project/brass_gazebo_battery.git
-- git:
     local-name: metacontrol_msgs
-    uri: https://github.com/rosin-project/metacontrol_msgs
+    uri: https://github.com/JWijkhuizen/metacontrol_msgs.git
+    version: nav_quality
 - git:
     local-name: rosgraph_monitor
-    uri: https://github.com/rosin-project/rosgraph_monitor
-    version: observers
+    uri: https://github.com/JWijkhuizen/rosgraph_monitor.git
+    version: nav_quality
 - git:
     local-name: ros_graph_parser
     uri: https://github.com/ipa-nhg/ros_graph_parser
     version: SoSymPaper
 - git:
     local-name: metacontrol_move_base_configurations
-    uri: https://github.com/rosin-project/metacontrol_move_base_configurations
+    uri: https://github.com/JWijkhuizen/metacontrol_move_base_configurations.git
+    version: nav_quality
 - git:
     local-name: mros1_reasoner
-    uri: https://github.com/tud-cor/mc_mros_reasoner.git
-    version: v0.2
-- git:
-    local-name: metacontrol_msgs
-    uri: https://github.com/rosin-project/metacontrol_msgs
+    uri: https://github.com/JWijkhuizen/mc_mros_reasoner.git
+    version: nav_quality
 - git:
     local-name: mc_mdl_tomasys
     uri: https://github.com/tud-cor/mc_mdl_tomasys.git
     version: v0.1
+- git:
+    local-name: metacontrol_experiments
+    uri: https://github.com/JWijkhuizen/metacontrol_experiments.git
+    version: nav_quality
+- git:
+    local-name: mros_quality_models
+    uri: https://github.com/JWijkhuizen/mros_quality_models.git
+- git:
+    local-name: model_training
+    uri: https://github.com/JWijkhuizen/model_training.git
+- git:
+    local-name: ahxl_gazebo
+    uri: https://gitlab.tudelft.nl/airlab-delft/msc_projects/msc_jasper_wijkhuizen/ahxl_gazebo.git
+- git:
+    local-name: simulation_tests
+    uri: https://gitlab.tudelft.nl/airlab-delft/msc_projects/msc_jasper_wijkhuizen/simulation_tests.git
