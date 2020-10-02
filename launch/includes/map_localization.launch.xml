@@ -24,9 +24,10 @@
   <!-- Fake localization -->
   <group if="$(arg use_fake_localization)">
     <node pkg="fake_localization" type="fake_localization" name="fake_localization" output="screen" required="true">
-      <remap from="base_pose_ground_truth" to="/ground_truth/state" />
+      <remap from="base_pose_ground_truth" to="/ground_truth_odom" />
       <param name="global_frame_id" value="map" />
       <param name="base_frame_id" value="base_link" />
+      <param name="odom_frame_id" value="/boxer_velocity_controller/odom" />
     </node>
   </group>
 

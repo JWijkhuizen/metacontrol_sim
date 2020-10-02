@@ -1,4 +1,10 @@
+# safety:
+#   name: 'SafetyQualityObserver'
 safety:
-  name: 'SafetyQualityObserver'
-energy:
-  name: 'EnergyQualityObserver'
+  name: 'SafetyObserver'
+# energy:
+#   name: 'EnergyQualityObserver'
+obstacle_density:
+  name: 'ObstacleDensityObserver'
+narrowness:
+  name: 'NarrownessObserver'
