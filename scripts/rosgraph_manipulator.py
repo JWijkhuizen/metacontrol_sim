@@ -20,6 +20,8 @@ import rospkg
 from move_base_msgs.msg import MoveBaseAction
 from move_base_msgs.msg import MoveBaseGoal
 
+from std_msgs.msg import String
+
 rospack = rospkg.RosPack()
 # param = rosparam.load_file(rospack.get_path('metacontrol_sim')+'/yaml/goal.yaml')
 dict = load(file(rospack.get_path(
@@ -97,6 +99,7 @@ class RosgraphManipulatorActionServer (object):
         self._as.start()
         rospy.loginfo ('RosgraphManipulator Action Server started.')
         self._movebase_client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
+        self._pub = rospy.Publisher('/current_configuration', String, queue_size=10)
 
     # TODO hardcoded configuration names
     # 
@@ -136,6 +139,7 @@ class RosgraphManipulatorActionServer (object):
         global nav_goal
 
         kill_node("/move_base") # TODO hardcoded
+        self._pub.publish("execution")
         rospy.sleep(2)
         launch_config(configuration, configuration+".launch", configuration)
         rospy.loginfo('launching new configuration')
@@ -145,6 +149,7 @@ class RosgraphManipulatorActionServer (object):
             rospy.logerr("MoveBase action server not available")
             return
         rospy.loginfo("Connected to move_base server and sending Nav Goal")
+        self._pub.publish(configuration)
 
         print nav_goal
         self._movebase_client.send_goal( nav_goal ) # TODO hardcoded

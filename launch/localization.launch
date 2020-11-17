@@ -1,0 +1,24 @@
+<launch>
+  ## Parameters for localization and map server
+  <!-- Use fake localization -->
+  <arg name="use_fake_localization" default="true"/>
+  <!-- Initial pose -->
+  <arg name="initial_pose_x" default="0.0" />
+  <arg name="initial_pose_y" default="0.0" />
+  <arg name="initial_pose_yaw" default="0.0" />
+  <!-- Map file -->
+  <arg name="map_file" default="$(find metacontrol_nav)/maps/ahxl_delft.yaml"/>
+
+
+  <!-- Loads map server and localization (amcl or fake_localization) -->
+  <include file="$(find metacontrol_sim)/launch/includes/map_localization.launch.xml" >
+    <arg name="use_fake_localization" value="$(arg use_fake_localization)" />
+    <arg name="initial_pose_x" value="$(arg initial_pose_x)" />
+    <arg name="initial_pose_y" value="$(arg initial_pose_y)" />
+    <arg name="initial_pose_a" value="$(arg initial_pose_yaw)" />
+    <arg name="map_file" value="$(arg map_file)" />
+    <remap from='scan' to='front/scan'/>
+  </include>
+
+
+</launch>

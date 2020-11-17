@@ -4,17 +4,24 @@
   <arg name="use_sim_time" default="true" />
   <arg name="gui" default="false" />
   <arg name="headless" default="false" />
-  <arg name="world_name" default="$(find metacontrol_sim)/worlds/factory.world" />
 
+  <arg name="record_bags" default="true"/>
+  <arg name="bag_store_path" default="$(find simulation_tests)/bags/"/>
+  <arg name="log_path" default="$(find metacontrol_experiments)/data/"/>
+  <arg name="bagname" default="metacontrol_" />
+  <arg name="store_data_freq" default="2.0"/>
+  <arg name="increase_power" default="0.0"/>
+
+  
   ## Parameters for localization and map server
   <!-- Use fake localization -->
   <arg name="use_fake_localization" default="true"/>
   <!-- Initial pose -->
   <arg name="initial_pose_x" default="0.0" />
-  <arg name="initial_pose_y" default="-10.0" />
+  <arg name="initial_pose_y" default="0.0" />
   <arg name="initial_pose_yaw" default="0.0" />
   <!-- Map file -->
-  <arg name="map_file" default="$(find metacontrol_nav)/maps/factory.yaml"/>
+  <arg name="map_file" default="$(find metacontrol_nav)/maps/ahxl_delft.yaml"/>
 
 <!-- Profile for navigation: -->
 <!-- fast / standard / safe: launches one of the baseline configurations -->
@@ -39,18 +46,18 @@
   <!-- <include file="$(find simulation_tests)/launch/spawn_boxer.launch" args="-x $(arg initial_pose_x) -y $(arg initial_pose_y) -yaw $(arg initial_pose_yaw)"/> -->
 
   <!-- Loads map server and localization (amcl or fake_localization) -->
-  <!-- <include file="$(find metacontrol_sim)/launch/includes/map_localization.launch.xml" >
+  <include file="$(find metacontrol_sim)/launch/includes/map_localization.launch.xml" >
     <arg name="use_fake_localization" value="$(arg use_fake_localization)" />
     <arg name="initial_pose_x" value="$(arg initial_pose_x)" />
     <arg name="initial_pose_y" value="$(arg initial_pose_y)" />
-    <arg name="initial_pose_a" value="$(arg initial_pose_a)" />
+    <arg name="initial_pose_a" value="$(arg initial_pose_yaw)" />
     <arg name="map_file" value="$(arg map_file)" />
     <remap from='scan' to='front/scan'/>
-  </include> -->
-  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping">
+  </include>
+  <!-- <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping">
     <remap from="scan" to="front/scan"/>
     <param name="map_update_interval" value="1"/>
-  </node>
+  </node> -->
 
   <!-- Loads rosgraph_monitor and rosgraph_manipulator nodes -->
   <include file="$(find metacontrol_sim)/launch/includes/rosgraph_nodes.launch.xml" />
@@ -58,18 +65,32 @@
   <!--- Run Move Base -->
   <include file="$(eval find(arg('nav_profile')) + '/launch/' + arg('nav_profile') + '.launch')" />
 
-  <!-- Node to send initial goal to move base -->
-<!--   <node name="send_initial_goal_node" pkg="metacontrol_sim" type="send_goal_from_yaml.py" output="screen">
-  </node> -->
-
   <!-- Node to activate the observer -->
   <node name="activate_observer_node" pkg="metacontrol_sim" type="activate_observer.py" output="screen">
   </node>
-
 
   <!-- Do NOT publish from node /ekf_localization in /diagnostics topic -->
   <rosparam param="/ekf_localization/print_diagnostics">false</rosparam>
 
   <node if="$(arg rviz)" type="rviz" name="rviz" pkg="rviz" args="-d $(find metacontrol_sim)/rviz/test_viz.rviz" />
 
+  <!-- Record data  -->
+  <node pkg="rosbag" type="record" name="record_bag_node" output="screen" if="$(arg record_bags)"
+      args="-o $(arg bag_store_path)/$(arg bagname)
+      /amcl_pose
+      /boxer_velocity_controller/odom
+      /d_obstacle
+      /diagnostics
+      /move_base/result
+      /move_base/goal
+      /current_configuration
+      /metrics/start_end"
+      required="true">
+  </node>
+
+<!--   <node pkg="metacontrol_experiments" type="stop_simulation_node" name="stop_simulation_node" output="screen" required="true">
+      <param name="data_log_folder" value="$(arg log_path)"/>
+      <param name="store_data_freq" value="$(arg store_data_freq)" type="double"/>
+      <param name="increase_power_factor" value="$(arg increase_power)" type="double"/>
+  </node> -->
 </launch>

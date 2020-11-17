@@ -8,3 +8,7 @@ obstacle_density:
   name: 'ObstacleDensityObserver'
 narrowness:
   name: 'NarrownessObserver'
+performance_teb:
+  name: 'PerformanceObserverTEB'
+performance_dwa:
+  name: 'PerformanceObserverDWA'
